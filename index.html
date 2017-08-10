@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Sea battle demo</title>
+<link rel="stylesheet" type="text/css" href="./styles/base.css" />
+<link rel="stylesheet" type="text/css" href="./styles/field.css" />
+<link rel="stylesheet" type="text/css" href="./styles/legend.css" />
+<link rel="stylesheet" type="text/css" href="./styles/status.css" />
+</head>
+
+<body>
+
+
+<div class="container">
+  
+  <section class="field _player">
+    <h2>Ваше поле</h2>
+    <table id="seabattle-arena" class="seabattle-arena hidden">
+      <tbody>
+        <tr class="row">
+          <td class="cell clean">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="field _comp">
+    <h2>Поле противника</h2>
+    <table id="seabattle-arena" class="seabattle-arena hidden">
+      <tbody>
+        <tr class="row">
+          <td class="cell clean">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer class="footer">
+    <section class="footer-section">
+      <h2>Легенда</h2>
+      <ul id="legend-box">
+        <li><span class="clean">&nbsp;</span> - свободное поле</li>
+        <li><span class="miss">&nbsp;</span> - промазал</li>
+        <li><span class="damaged">&nbsp;</span> - ранил</li>
+        <li><span class="killed">&nbsp;</span> - убил</li>
+      </ul>
+    </section>
+    <section class="footer-section">
+      <h2>Статус текущей игры</h2>
+      <div id="status-box">
+        <div id="seabattle-status" class="status">
+          playing
+        </div>
+      </div>
+    </section>
+  </footer>
+
+</div>
+
+<script type="text/javascript" src="./js/vendor/jquery-1.5.min.js?x"></script>
+
+<script src="./js/game.js"></script>
+<script src="./js/comp.js"></script>
+<script src="./js/player.js"></script>
+<script src="./js/battle.js"></script>
+<script src="./js/ship.js"></script>
+<script src="./js/score.js"></script>
+
+<script>
+  jQuery(function($) {
+    var seaBattle = new Game.Init();
+  });
+</script>
+
+
+</body>
+</html>

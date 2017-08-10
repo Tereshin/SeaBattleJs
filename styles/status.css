@@ -1,0 +1,22 @@
+#status-box .status {
+  padding: 0.1em 0.2em;
+  background: #e0e0e0;
+}
+
+#status-box .status-playing {
+  color: black;
+  font-size: 3em;
+}
+
+#status-box .status-lose {
+  color: white;
+  background: red;
+  font-size: 4em;
+}
+
+
+#status-box .status-win {
+  color: white;
+  background: green;
+  font-size: 4em;
+}

@@ -1,0 +1,34 @@
+.seabattle-arena {
+  border-collapse: collapse;
+}
+
+.seabattle-arena th,
+.seabattle-arena td {
+  width: 2em;
+  height: 2em;
+}
+
+.seabattle-arena .cell {
+  border: 1px solid white;
+  color: black;
+}
+
+.seabattle-arena .clean {
+  background: #a0e0ff;
+}
+
+.seabattle-arena .miss {
+  background: gray;
+}
+
+.seabattle-arena .damaged {
+  background: orange;
+}
+
+.seabattle-arena .killed {
+  background: red;
+}
+
+.seabattle-arena .ship {
+  background: green;
+}

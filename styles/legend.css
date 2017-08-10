@@ -1,0 +1,28 @@
+#legend-box li {
+  padding: 0.2em 0;
+  display: block;
+}
+
+#legend-box li span {
+  display: block;
+  width: 1.5em;
+  height: auto;
+  float: left;
+  margin-right: 0.5em;
+}
+
+#legend-box .clean {
+  background: #a0e0ff;
+}
+
+#legend-box .miss {
+  background: gray;
+}
+
+#legend-box .damaged {
+  background: orange;
+}
+
+#legend-box .killed {
+  background: red;
+}
