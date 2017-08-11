@@ -1,12 +1,14 @@
 (function($) {
 
-  Game.Battle = function() {
+  Game.Battle = function(player) {
 
     this.sizeX = 10;
     this.sizeY = 10;
 
     this.player = $('._player .seabattle-arena tbody');
     this.comp = $('._comp .seabattle-arena tbody');
+
+    this.playerObj = player;
 
     this.statusArea = $('#seabattle-status');
 
@@ -33,8 +35,16 @@
     init() {
       let self = this;
 
+      // ДЛЯ РУЧНОГО РАСПОЛОЖЕНИЯ КОРАБЛЕЙ
+      // 
+      // alert("Расставьте свои корабли, прежде чем начать игру!");
+      // if (self.playerObj.isShipsOnPlace) {
+      //   this.playerShot(self);
+      // } else {
+      //   self.playerObj.placeShips(self.shipTypes);
+      // }
+
       this.playerShot(self);
-      
 
       this.score.reset();
       this.statusArea

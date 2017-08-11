@@ -6,6 +6,9 @@
     this.sizeX = 10;
     this.sizeY = 10;
 
+    this.isShipsOnPlace = false;
+    this.prevCellPos = {};
+
     this.shipTypes = { 
       "ship-4": [4, 1],
       "ship-3": [3, 2],
@@ -27,7 +30,6 @@
     init() {
       this.buildBody();
       this.placeShips(this.shipTypes);
-      this.replaceShips(this.shipTypes);
     },
 
     buildBody() {
@@ -57,11 +59,13 @@
     },
     
     placeShip(ship, shipsMap) {
+      
       let size = ship.size;
       let placed = false;
       let posX;
       let posY;
       let direction;
+      let countIteration = 100;
       
       do {
         direction = Math.floor( Math.random() * 2 );
@@ -105,7 +109,7 @@
           }
         }
         
-      } while ( !placed );
+      } while ( !placed && ( (countIteration--) > 0) );
       return placed;
     },
 
@@ -130,35 +134,69 @@
     placeShips(shipTypes) {
       let self = this;
       let shipsMap = this.makeShipsMap(shipTypes);
-
       $('.cell', this.body).each(function() {
         let cellPos = $(this).data("pos");
         let ship = shipsMap[cellPos.X][cellPos.Y];
         if (ship) {
-          $(this).addClass('ship');
+          $(this).addClass("ship");  
         }
         $(this).data("ship", ship);
         $(this).attr('x', cellPos.X);
         $(this).attr('y', cellPos.Y);
       });
-    },
-
-    replaceShips(shipTypes) {
-      let shipsMap = this.makeShipsMap(shipTypes);
-      for (type in shipTypes) {
-        let shipItem = shipTypes[type];
-        let count = shipItem[1];
-        let size  = shipItem[0]; 
-        for (let i = 0; i < count; i++) {
-          let ship = new Game.Ship(type, size);
-          this.placeShip(ship, shipsMap);
-        }
-      }
-      $('.cell', this.body).click((e) => {
-        console.log(shipsMap);
-        console.log($(e.target));
-      });
     }
+
+
+
+
+
+    // ДЛЯ РУЧНОГО РАСПОЛОЖЕНИЯ КОРАБЛЕЙ
+    
+    // placeShips() {
+    //   let self = this;
+    //   let generatorShips = this.loopThroughtShips();
+    //   let ship = generatorShips.next().value;
+    //   this.placeShip(ship);
+    // },
+
+    // *loopThroughtTypes() {
+    //   for (type in this.shipTypes) {
+    //     yield type;
+    //   }
+    // },
+
+    // *loopThroughtShips() {
+    //   let generatorTypes = this.loopThroughtTypes();
+    //   let type = generatorTypes.next().value;
+    //   let ship = this.shipTypes[type];
+    //   let count = ship[1];
+    //   let size  = ship[0]; 
+    //   for (let i = 0; i < count; i++) {
+    //     let ship = new Game.Ship(type, size);
+    //     yield ship;
+    //   } 
+    // },
+
+    // placeShip(ship) {
+    //   let self = this;
+    //   let shipLength = ship.size;
+    //   alert(`Поставьте ${shipLength}-палубный корабль`);
+    //   $('.cell', this.body).click((e) => {
+    //     if (shipLength) {
+    //       let cellPos = $(e.target).data("pos");
+    //       let prevCellPos = $.isEmptyObject(self.prevCellPos) ? cellPos : Object.assign({}, self.prevCellPos);
+    //       if ((cellPos.X === prevCellPos.X) || (cellPos.Y === prevCellPos.Y)) {
+    //         $(e.target).addClass('ship');
+    //         self.prevCellPos = Object.assign({}, cellPos);
+    //       } else {
+    //         alert("Здесь разместить корабль вы не можете");
+    //       }
+    //     } else {
+    //       console.log(self);
+    //     }
+    //     shipLength--;
+    //   })
+    // }
     
   };
 
