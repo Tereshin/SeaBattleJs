@@ -210,7 +210,9 @@ Game.Battle.prototype = {
             this.statusArea.innerHTML = "Вы победили";
           }
         }
+        return;
       }
+      return;
     }
   },
 
