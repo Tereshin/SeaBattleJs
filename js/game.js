@@ -1,34 +1,40 @@
-(function($) {
+let Game = {};
 
-  let Game = {};
+Game.Init = function() {
+  let self = this;
 
-  Game.Init = function() {
-    let self = this;
+  this.sizeX = 10;
+  this.sizeY = 10;
 
-    this.startGame();
+  this.shipTypes = { 
+    "ship-4": [4, 1],
+    "ship-3": [3, 2],
+    "ship-2": [2, 3],
+    "ship-1": [1, 4]
   };
 
-  Game.Init.prototype = {
+  this.startGame();
+};
 
-    startGame() {
-      this.initPlayer();
-      this.initComp();
-      this.initBattle();
-    },
+Game.Init.prototype = {
 
-    initPlayer() {
-      this.player = new Game.Player();
-    },
+  startGame() {
+    this.initPlayer();
+    this.initComp();
+    this.initBattle();
+  },
 
-    initComp() {
-      this.comp = new Game.Comp();
-    },
+  initPlayer() {
+    this.player = new Game.Player(this.sizeX, this.sizeY, this.shipTypes);
+  },
 
-    initBattle() {
-      this.battle = new Game.Battle();
-    }
-  };
-  
-  window.Game = Game;
+  initComp() {
+    this.comp = new Game.Comp(this.sizeX, this.sizeY, this.shipTypes);
+  },
 
-})(jQuery);
+  initBattle() {
+    this.battle = new Game.Battle(this.sizeX, this.sizeY, this.shipTypes);
+  }
+};
+
+window.Game = Game;

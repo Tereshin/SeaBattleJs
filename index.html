@@ -17,7 +17,7 @@
   
   <section class="field _player">
     <h2>Ваше поле</h2>
-    <table id="seabattle-arena" class="seabattle-arena hidden">
+    <table id="player-arena" class="seabattle-arena hidden">
       <tbody>
         <tr class="row">
           <td class="cell clean">&nbsp;</td>
@@ -28,7 +28,7 @@
 
   <section class="field _comp">
     <h2>Поле противника</h2>
-    <table id="seabattle-arena" class="seabattle-arena hidden">
+    <table id="comp-arena" class="seabattle-arena hidden">
       <tbody>
         <tr class="row">
           <td class="cell clean">&nbsp;</td>
@@ -41,7 +41,7 @@
     <section class="footer-section">
       <h2>Легенда</h2>
       <ul id="legend-box">
-        <li><span class="clean">&nbsp;</span> - свободное поле</li>
+        <li><span class="area-clean">&nbsp;</span> - свободное поле</li>
         <li><span class="miss">&nbsp;</span> - промазал</li>
         <li><span class="damaged">&nbsp;</span> - ранил</li>
         <li><span class="killed">&nbsp;</span> - убил</li>
@@ -59,7 +59,7 @@
 
 </div>
 
-<script type="text/javascript" src="./js/vendor/jquery-1.5.min.js?x"></script>
+<!-- <script type="text/javascript" src="./js/vendor/jquery-1.5.min.js?x"></script> -->
 
 <script src="./js/game.js"></script>
 <script src="./js/comp.js"></script>
@@ -69,8 +69,8 @@
 <script src="./js/score.js"></script>
 
 <script>
-  jQuery(function($) {
-    var seaBattle = new Game.Init();
+  document.addEventListener("DOMContentLoaded", () => {
+    new Game.Init();
   });
 </script>
 

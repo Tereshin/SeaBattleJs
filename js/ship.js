@@ -1,25 +1,21 @@
-(function($) {
+Game.Ship = function(type, size) {
 
-	Game.Ship = function(type, size) {
+	this.type = type;
 
-		this.type = type;
+	this.size = size;
 
-		this.size = size;
+	this.shotCount = 0;
+};
 
-		this.shotCount = 0;
-	};
+Game.Ship.prototype = {
 
-	Game.Ship.prototype = {
-
-		shot : function() {
-			if (this.shotCount < this.size) {
-				this.shotCount++;
-			}
-		},
-
-		isKilled : function() {
-			return this.shotCount >= this.size;
+	shot() {
+		if (this.shotCount < this.size) {
+			this.shotCount++;
 		}
-	};
+	},
 
-})(jQuery);
+	isKilled() {
+		return this.shotCount >= this.size;
+	}
+};
