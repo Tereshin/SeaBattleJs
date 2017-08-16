@@ -136,9 +136,9 @@ Game.Comp.prototype = {
       let cellPosX = cells[i].dataset.posX;
       let cellPosY = cells[i].dataset.posY;
       let ship = shipsMap[cellPosX][cellPosY];
-      if (ship) {
-        cells[i].classList.add("ship");
-      }
+      // if (ship) {
+      //   cells[i].classList.add("ship");
+      // }
       cells[i].dataset.ship = JSON.stringify(ship);
     }
   }
