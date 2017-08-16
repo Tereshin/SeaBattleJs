@@ -2,6 +2,7 @@ Game.Battle = function(sizeX, sizeY, shipTypes) {
 
   this.sizeX = sizeX;
   this.sizeY = sizeY;
+  this.shipTypes = shipTypes;
 
   this.player = document.getElementById('player-arena');
   this.comp = document.getElementById('comp-arena');
@@ -9,8 +10,7 @@ Game.Battle = function(sizeX, sizeY, shipTypes) {
   this.statusArea = document.getElementById("seabattle-status");
 
   this.isDamaged = false;
-
-  this.shipTypes = shipTypes;
+  
 
   this.shipsDamaged = [];
   this.shipsFutureShots = [];
@@ -26,8 +26,6 @@ Game.Battle = function(sizeX, sizeY, shipTypes) {
 Game.Battle.prototype = {
 
   init() {
-    let self = this;
-
     this.playerShot();
 
     this.score.reset();
@@ -53,10 +51,11 @@ Game.Battle.prototype = {
     this.shipsFutureShots = futureShots.slice().filter((item) => {
       return !((item[0] === prevShot[0]) && (item[1] === prevShot[1]))
     });
-    // console.log("Возможные выстрелы без предыдущего выстрела: ", this.shipsFutureShots);
+
     let posX = coordinates[0];
     let posY = coordinates[1];
     let position = this.player.querySelector(`[data-pos-x="${posX}"][data-pos-y="${posY}"]`);
+    
     return position;
   },
 
@@ -70,19 +69,13 @@ Game.Battle.prototype = {
     }
 
     let damagedShip = this.player.getElementsByClassName("damaged");
-    console.log(damagedShip);
+
     if (damagedShip.length) {
       for (let i = 0; i < damagedShip.length; i++) {
-        console.log(damagedShip[i]);
         posX = damagedShip[i].dataset.posX;
         posY = damagedShip[i].dataset.posY;
         this.shipsDamaged.push([+posX, +posY]);
       }
-      // damagedShip.forEach((item) => {
-      //   posX = item.dataset('posX');
-      //   posY = item.dataset('posY');
-      //   this.shipsDamaged.push([+posX, +posY]);
-      // })
       if (this.shipsDamaged.length === 1) {
         let futureShots = this.shipsFutureShots.slice();
         if (futureShots.length) {
@@ -107,9 +100,9 @@ Game.Battle.prototype = {
           position = this.compNextShot();
         }
       } else {
-        let futureShots = this.shipsFutureShots.slice();
-        if (this.isDamaged) {
-          futureShots = [];
+        let futureShots = [];
+        if (!this.isDamaged) {
+          futureShots = this.shipsFutureShots.slice();
         }
         if (this.shipsDamaged[1][0] === this.shipsDamaged[0][0]) {
           if (futureShots.length) {
@@ -146,13 +139,17 @@ Game.Battle.prototype = {
         }
       }
     } else {
-        let posX = Math.floor( Math.random() * this.sizeX );
-        let posY = Math.floor( Math.random() * this.sizeY );
-        position = this.player.querySelector(`[data-pos-x="${posX}"][data-pos-y="${posY}"]`);
-        if (position.classList.contains('miss') || position.classList.contains('killed')) {
-          this.compShot();
-        }
+      let posX = Math.floor( Math.random() * this.sizeX );
+      let posY = Math.floor( Math.random() * this.sizeY );
+      position = this.player.querySelector(`[data-pos-x="${posX}"][data-pos-y="${posY}"]`);
+      // if (position.classList.contains('miss') || position.classList.contains('killed')) {
+      //   this.compShot();
+      // }
     }
+    if (position.classList.contains('miss') || position.classList.contains('killed')) {
+      this.compShot();
+    }
+    
     setTimeout(() => { 
       this.onShot(position, 'comp');
     }, 1000)
@@ -163,18 +160,22 @@ Game.Battle.prototype = {
     if (target.classList.contains("cell")) {
       if (target.classList.contains("clean")) {
         if (target.dataset.ship != "undefined") {
-          // console.log(target)
           let arena = target.closest(".seabattle-arena");
-          // arena.
-          let ship = JSON.parse(target.dataset.ship);
-          if (ship.shotCount < ship.size) {
-            console.log(ship.shotCount++);
-            // ship.shotCount++;
+
+          
+          let shipAttr = JSON.parse(target.dataset.ship);
+
+          let ship = arena.querySelectorAll(`[data-ship='${JSON.stringify(shipAttr)}']`);
+          
+          for (let i = 0; i < ship.length; i++) {
+            let shipPart = JSON.parse(ship[i].dataset.ship);
+            if (shipPart.shotCount < shipPart.size) {
+              shipPart.shotCount++
+            }
+            ship[i].dataset.ship = JSON.stringify(shipPart);
           }
-          target.dataset.ship = JSON.stringify(ship);
-          ship = JSON.parse(target.dataset.ship);
-          console.log(ship);
-          if (!(ship.shotCount >= ship.size)) {
+
+          if (!(JSON.parse(target.dataset.ship).shotCount >= JSON.parse(target.dataset.ship).size)) {
             this.onShotDamaged(target, type);
           } else {
             this.onShotKilled(ship, type);
@@ -215,8 +216,7 @@ Game.Battle.prototype = {
 
   onShotMiss(target, type) {
     if (type) {
-      let self = this;
-      this.playerShot(self);
+      this.playerShot();
     } else {
       this.compShot();
       this.isDamaged = false;
@@ -247,26 +247,26 @@ Game.Battle.prototype = {
       fieldType = this.comp;
     }
 
-    let shipCells = fieldType.getElementsByClassName('cell').filter(function() {
-      return $(this).data("ship") == ship;
-    });
-
-    for (let i = 0; i < shipCells.length; i++) {
-      let x = +shipCells[i].dataset.posX;
-      let y = +shipCells[i].dataset.posY;
+    for (let i = 0; i < ship.length; i++) {
+      let x = +ship[i].dataset.posX;
+      let y = +ship[i].dataset.posY;
       for (let i = x - 1; i < x + 2; i++) {
         for (let j = y - 1; j < y + 2; j++) {
           let target = fieldType.querySelector(`[data-pos-x="${i}"][data-pos-y="${j}"]`);
-          target.classList.remove("clean damaged ship");
-          target.classList.add("miss");
+          if (target) {
+            target.classList.remove("clean", "damaged", "ship");
+            target.classList.add("miss");
+          }
         }
       }
     }
 
     this.isDamaged = false;
 
-    shipCells.classList.remove("clean", "ship", "damaged");
-    shipCells.classList.add("killed");
+    for (let i = 0; i < ship.length; i++) {
+      ship[i].classList.remove("clean", "ship", "damaged");
+      ship[i].classList.add("killed");
+    }
   },
   
 };

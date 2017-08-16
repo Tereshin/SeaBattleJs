@@ -117,7 +117,13 @@ Game.Player.prototype = {
       let count = shipItem[1];
       let size  = shipItem[0]; 
       for (let i = 0; i < count; i++) {
-        let ship = new Game.Ship(type, size);
+        // let ship = new Game.Ship(type, size);
+        let ship = {
+          type: type,
+          shotCount: 0,
+          size: size,
+          id: i
+        }
         this.placeShip(ship, shipsMap);
       }
     }
@@ -128,7 +134,7 @@ Game.Player.prototype = {
     let self = this;
     let shipsMap = this.makeShipsMap(shipTypes);
     let cells = this.body.getElementsByClassName("cell");
-    for (let i = 0; i < cells.length - 1; i++) {
+    for (let i = 0; i < cells.length; i++) {
       let cellPosX = cells[i].dataset.posX;
       let cellPosY = cells[i].dataset.posY;
       let ship = shipsMap[cellPosX][cellPosY];
